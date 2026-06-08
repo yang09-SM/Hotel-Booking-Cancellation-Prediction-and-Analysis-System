@@ -1,12 +1,19 @@
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import database
 from prediction_service import get_prediction_service
 import os
+import webbrowser
+import threading
 
 app = Flask(__name__)
 CORS(app)
+
+# 前端页面路由
+@app.route('/')
+def index():
+    return send_from_directory('.', 'index.html')
 
 # 初始化数据库
 if not os.path.exists('hotel_bookings.db'):
@@ -77,7 +84,7 @@ def get_statistics():
 def predict():
     data = request.json
     booking_data = data.get('booking', {})
-    model_name = data.get('model', 'Random Forest')
+    model_name = data.get('model', 'XGBoost')
     
     try:
         service = get_prediction_service()
@@ -118,7 +125,18 @@ def get_model_performance():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+def open_browser():
+    """在Flask启动后自动打开浏览器"""
+    import time
+    time.sleep(1.5)  # 等待服务器启动
+    webbrowser.open('http://localhost:5001')
+
 if __name__ == '__main__':
     print("启动酒店预订智能管理系统...")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    
+    # 启动浏览器线程（仅在主进程执行，避免reloader重复打开）
+    if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
+        threading.Thread(target=open_browser, daemon=True).start()
+    
+    app.run(debug=True, host='0.0.0.0', port=5001)
 

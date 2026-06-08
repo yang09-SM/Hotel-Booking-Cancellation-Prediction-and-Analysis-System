@@ -10,8 +10,32 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+import xgboost as xgb
+import lightgbm as lgb
 import warnings
 warnings.filterwarnings('ignore')
+
+# 检查 GPU 可用性
+def check_gpu_availability():
+    try:
+        import xgboost as xgb
+        # 检查 XGBoost GPU
+        xgb_clf = xgb.XGBClassifier(tree_method='hist', device='cuda', n_estimators=1)
+        xgb_clf.fit(np.array([[1,2], [3,4]]), np.array([0,1]))
+        xgb_available = True
+    except:
+        xgb_available = False
+    
+    try:
+        import lightgbm as lgb
+        # 检查 LightGBM GPU
+        lgb_clf = lgb.LGBMClassifier(device='gpu', n_estimators=1, verbose=-1)
+        lgb_clf.fit(np.array([[1,2], [3,4]]), np.array([0,1]))
+        lgb_available = True
+    except:
+        lgb_available = False
+    
+    return xgb_available, lgb_available
 
 def load_data(filepath):
     df = pd.read_csv(filepath)
@@ -53,23 +77,62 @@ def preprocess_data(df):
 def train_models(X_train, y_train):
     models = {}
     
+    # 检查 GPU 可用性
+    xgb_gpu, lgb_gpu = check_gpu_availability()
+    print(f"XGBoost GPU 可用: {xgb_gpu}")
+    print(f"LightGBM GPU 可用: {lgb_gpu}")
+    
     # 1. 逻辑回归
     print("训练逻辑回归模型...")
     lr = LogisticRegression(max_iter=1000, random_state=42)
     lr.fit(X_train, y_train)
     models['Logistic Regression'] = lr
     
-    # 2. 随机森林（集成学习）
-    print("训练随机森林模型...")
-    rf = RandomForestClassifier(n_estimators=100, max_depth=15, random_state=42)
-    rf.fit(X_train, y_train)
-    models['Random Forest'] = rf
+    # 2. XGBoost（集成学习，GPU加速）
+    print("训练 XGBoost 模型...")
+    if xgb_gpu:
+        xgb_clf = xgb.XGBClassifier(
+            n_estimators=200,
+            max_depth=10,
+            learning_rate=0.1,
+            tree_method='hist',
+            device='cuda',
+            random_state=42,
+            eval_metric='logloss'
+        )
+    else:
+        xgb_clf = xgb.XGBClassifier(
+            n_estimators=200,
+            max_depth=10,
+            learning_rate=0.1,
+            tree_method='hist',
+            random_state=42,
+            eval_metric='logloss'
+        )
+    xgb_clf.fit(X_train, y_train)
+    models['XGBoost'] = xgb_clf
     
-    # 3. 支持向量机
-    print("训练支持向量机模型...")
-    svm = SVC(probability=True, random_state=42)
-    svm.fit(X_train, y_train)
-    models['SVM'] = svm
+    # 3. LightGBM（集成学习，GPU加速）
+    print("训练 LightGBM 模型...")
+    if lgb_gpu:
+        lgb_clf = lgb.LGBMClassifier(
+            n_estimators=200,
+            max_depth=10,
+            learning_rate=0.1,
+            device='gpu',
+            random_state=42,
+            verbose=-1
+        )
+    else:
+        lgb_clf = lgb.LGBMClassifier(
+            n_estimators=200,
+            max_depth=10,
+            learning_rate=0.1,
+            random_state=42,
+            verbose=-1
+        )
+    lgb_clf.fit(X_train, y_train)
+    models['LightGBM'] = lgb_clf
     
     # 4. 神经网络
     print("训练神经网络模型...")
@@ -145,6 +208,10 @@ def main():
         print(f"  召回率: {metrics['recall']:.4f}")
         print(f"  F1分数: {metrics['f1']:.4f}")
         print(f"  ROC-AUC: {metrics['roc_auc']:.4f}")
+    
+    # 确保目录存在
+    if not os.path.exists('models'):
+        os.makedirs('models')
     
     # 保存结果
     joblib.dump(results, 'models/model_results.pkl')

@@ -1,11 +1,11 @@
 
-&lt;!DOCTYPE html&gt;
-&lt;html lang="zh-CN"&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-    &lt;title&gt;酒店预订智能管理系统&lt;/title&gt;
-    &lt;style&gt;
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>酒店预订智能管理系统</title>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -535,289 +535,289 @@
                 flex-direction: column;
             }
         }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div class="container"&gt;
-        &lt;!-- Sidebar --&gt;
-        &lt;aside class="sidebar"&gt;
-            &lt;div class="sidebar-header"&gt;
-                &lt;h1&gt;🏨 酒店管理&lt;/h1&gt;
-                &lt;p&gt;智能预订管理系统&lt;/p&gt;
-            &lt;/div&gt;
-            &lt;nav class="nav-menu"&gt;
-                &lt;div class="nav-item active" data-section="dashboard"&gt;
-                    &lt;span class="nav-icon"&gt;📊&lt;/span&gt;
-                    &lt;span&gt;数据概览&lt;/span&gt;
-                &lt;/div&gt;
-                &lt;div class="nav-item" data-section="bookings"&gt;
-                    &lt;span class="nav-icon"&gt;📋&lt;/span&gt;
-                    &lt;span&gt;预订管理&lt;/span&gt;
-                &lt;/div&gt;
-                &lt;div class="nav-item" data-section="prediction"&gt;
-                    &lt;span class="nav-icon"&gt;🔮&lt;/span&gt;
-                    &lt;span&gt;取消预测&lt;/span&gt;
-                &lt;/div&gt;
-                &lt;div class="nav-item" data-section="models"&gt;
-                    &lt;span class="nav-icon"&gt;🤖&lt;/span&gt;
-                    &lt;span&gt;模型评估&lt;/span&gt;
-                &lt;/div&gt;
-            &lt;/nav&gt;
-        &lt;/aside&gt;
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>🏨 酒店管理</h1>
+                <p>智能预订管理系统</p>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-item active" data-section="dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span>数据概览</span>
+                </div>
+                <div class="nav-item" data-section="bookings">
+                    <span class="nav-icon">📋</span>
+                    <span>预订管理</span>
+                </div>
+                <div class="nav-item" data-section="prediction">
+                    <span class="nav-icon">🔮</span>
+                    <span>取消预测</span>
+                </div>
+                <div class="nav-item" data-section="models">
+                    <span class="nav-icon">🤖</span>
+                    <span>模型评估</span>
+                </div>
+            </nav>
+        </aside>
 
-        &lt;!-- Main Content --&gt;
-        &lt;main class="main-content"&gt;
-            &lt;!-- Dashboard Section --&gt;
-            &lt;section id="dashboard" class="content-section active"&gt;
-                &lt;div class="header"&gt;
-                    &lt;h2&gt;📊 数据概览&lt;/h2&gt;
-                &lt;/div&gt;
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="header">
+                    <h2>📊 数据概览</h2>
+                </div>
 
-                &lt;div class="stats-grid"&gt;
-                    &lt;div class="stat-card"&gt;
-                        &lt;div class="stat-card-header"&gt;
-                            &lt;span class="stat-label"&gt;总预订数&lt;/span&gt;
-                            &lt;div class="stat-icon blue"&gt;📝&lt;/div&gt;
-                        &lt;/div&gt;
-                        &lt;div class="stat-value" id="total-bookings"&gt;-&lt;/div&gt;
-                    &lt;/div&gt;
-                    &lt;div class="stat-card"&gt;
-                        &lt;div class="stat-card-header"&gt;
-                            &lt;span class="stat-label"&gt;已确认&lt;/span&gt;
-                            &lt;div class="stat-icon green"&gt;✅&lt;/div&gt;
-                        &lt;/div&gt;
-                        &lt;div class="stat-value" id="confirmed-bookings"&gt;-&lt;/div&gt;
-                    &lt;/div&gt;
-                    &lt;div class="stat-card"&gt;
-                        &lt;div class="stat-card-header"&gt;
-                            &lt;span class="stat-label"&gt;已取消&lt;/span&gt;
-                            &lt;div class="stat-icon red"&gt;❌&lt;/div&gt;
-                        &lt;/div&gt;
-                        &lt;div class="stat-value" id="canceled-bookings"&gt;-&lt;/div&gt;
-                    &lt;/div&gt;
-                    &lt;div class="stat-card"&gt;
-                        &lt;div class="stat-card-header"&gt;
-                            &lt;span class="stat-label"&gt;平均提前预订天数&lt;/span&gt;
-                            &lt;div class="stat-icon yellow"&gt;📅&lt;/div&gt;
-                        &lt;/div&gt;
-                        &lt;div class="stat-value" id="avg-lead-time"&gt;-&lt;/div&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">总预订数</span>
+                            <div class="stat-icon blue">📝</div>
+                        </div>
+                        <div class="stat-value" id="total-bookings">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">已确认</span>
+                            <div class="stat-icon green">✅</div>
+                        </div>
+                        <div class="stat-value" id="confirmed-bookings">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">已取消</span>
+                            <div class="stat-icon red">❌</div>
+                        </div>
+                        <div class="stat-value" id="canceled-bookings">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">平均提前预订天数</span>
+                            <div class="stat-icon yellow">📅</div>
+                        </div>
+                        <div class="stat-value" id="avg-lead-time">-</div>
+                    </div>
+                </div>
 
-                &lt;div class="card"&gt;
-                    &lt;div class="card-header"&gt;
-                        &lt;h3 class="card-title"&gt;最新预订&lt;/h3&gt;
-                        &lt;button class="btn btn-primary" onclick="navigateTo('bookings')"&gt;
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">最新预订</h3>
+                        <button class="btn btn-primary" onclick="navigateTo('bookings')">
                             查看全部 →
-                        &lt;/button&gt;
-                    &lt;/div&gt;
-                    &lt;div class="table-container"&gt;
-                        &lt;table&gt;
-                            &lt;thead&gt;
-                                &lt;tr&gt;
-                                    &lt;th&gt;ID&lt;/th&gt;
-                                    &lt;th&gt;酒店&lt;/th&gt;
-                                    &lt;th&gt;入住日期&lt;/th&gt;
-                                    &lt;th&gt;状态&lt;/th&gt;
-                                &lt;/tr&gt;
-                            &lt;/thead&gt;
-                            &lt;tbody id="recent-bookings"&gt;
-                            &lt;/tbody&gt;
-                        &lt;/table&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
-            &lt;/section&gt;
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>酒店</th>
+                                    <th>入住日期</th>
+                                    <th>状态</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-bookings">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
 
-            &lt;!-- Bookings Section --&gt;
-            &lt;section id="bookings" class="content-section"&gt;
-                &lt;div class="header"&gt;
-                    &lt;h2&gt;📋 预订管理&lt;/h2&gt;
-                &lt;/div&gt;
+            <!-- Bookings Section -->
+            <section id="bookings" class="content-section">
+                <div class="header">
+                    <h2>📋 预订管理</h2>
+                </div>
 
-                &lt;div class="card"&gt;
-                    &lt;div class="card-header"&gt;
-                        &lt;h3 class="card-title"&gt;预订列表&lt;/h3&gt;
-                        &lt;button class="btn btn-primary" onclick="openCreateModal()"&gt;
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">预订列表</h3>
+                        <button class="btn btn-primary" onclick="openCreateModal()">
                             ➕ 新增预订
-                        &lt;/button&gt;
-                    &lt;/div&gt;
+                        </button>
+                    </div>
 
-                    &lt;div class="search-bar"&gt;
-                        &lt;input type="text" class="search-input" id="search-input" placeholder="搜索酒店、国家、市场..."&gt;
-                        &lt;button class="btn btn-primary" onclick="searchBookings()"&gt;🔍 搜索&lt;/button&gt;
-                    &lt;/div&gt;
+                    <div class="search-bar">
+                        <input type="text" class="search-input" id="search-input" placeholder="搜索酒店、国家、市场...">
+                        <button class="btn btn-primary" onclick="searchBookings()">🔍 搜索</button>
+                    </div>
 
-                    &lt;div class="table-container"&gt;
-                        &lt;table&gt;
-                            &lt;thead&gt;
-                                &lt;tr&gt;
-                                    &lt;th&gt;ID&lt;/th&gt;
-                                    &lt;th&gt;酒店&lt;/th&gt;
-                                    &lt;th&gt;国家&lt;/th&gt;
-                                    &lt;th&gt;市场&lt;/th&gt;
-                                    &lt;th&gt;提前天数&lt;/th&gt;
-                                    &lt;th&gt;状态&lt;/th&gt;
-                                    &lt;th&gt;操作&lt;/th&gt;
-                                &lt;/tr&gt;
-                            &lt;/thead&gt;
-                            &lt;tbody id="bookings-table"&gt;
-                            &lt;/tbody&gt;
-                        &lt;/table&gt;
-                    &lt;/div&gt;
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>酒店</th>
+                                    <th>国家</th>
+                                    <th>市场</th>
+                                    <th>提前天数</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookings-table">
+                            </tbody>
+                        </table>
+                    </div>
 
-                    &lt;div class="pagination" id="pagination"&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
-            &lt;/section&gt;
+                    <div class="pagination" id="pagination">
+                    </div>
+                </div>
+            </section>
 
-            &lt;!-- Prediction Section --&gt;
-            &lt;section id="prediction" class="content-section"&gt;
-                &lt;div class="header"&gt;
-                    &lt;h2&gt;🔮 取消预测&lt;/h2&gt;
-                &lt;/div&gt;
+            <!-- Prediction Section -->
+            <section id="prediction" class="content-section">
+                <div class="header">
+                    <h2>🔮 取消预测</h2>
+                </div>
 
-                &lt;div class="card"&gt;
-                    &lt;div class="card-header"&gt;
-                        &lt;h3 class="card-title"&gt;输入预订信息&lt;/h3&gt;
-                    &lt;/div&gt;
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">输入预订信息</h3>
+                    </div>
 
-                    &lt;form id="prediction-form"&gt;
-                        &lt;div class="form-grid"&gt;
-                            &lt;div class="form-group"&gt;
-                                &lt;label&gt;酒店类型&lt;/label&gt;
-                                &lt;select id="hotel"&gt;
-                                    &lt;option value="Resort Hotel"&gt;度假酒店&lt;/option&gt;
-                                    &lt;option value="City Hotel"&gt;城市酒店&lt;/option&gt;
-                                &lt;/select&gt;
-                            &lt;/div&gt;
-                            &lt;div class="form-group"&gt;
-                                &lt;label&gt;提前预订天数&lt;/label&gt;
-                                &lt;input type="number" id="lead_time" value="60"&gt;
-                            &lt;/div&gt;
-                            &lt;div class="form-group"&gt;
-                                &lt;label&gt;成人数量&lt;/label&gt;
-                                &lt;input type="number" id="adults" value="2"&gt;
-                            &lt;/div&gt;
-                            &lt;div class="form-group"&gt;
-                                &lt;label&gt;儿童数量&lt;/label&gt;
-                                &lt;input type="number" id="children" value="0"&gt;
-                            &lt;/div&gt;
-                            &lt;div class="form-group"&gt;
-                                &lt;label&gt;入住年份&lt;/label&gt;
-                                &lt;input type="number" id="arrival_date_year" value="2017"&gt;
-                            &lt;/div&gt;
-                            &lt;div class="form-group"&gt;
-                                &lt;label&gt;入住月份&lt;/label&gt;
-                                &lt;input type="number" id="arrival_date_month" value="7" min="1" max="12"&gt;
-                            &lt;/div&gt;
-                            &lt;div class="form-group"&gt;
-                                &lt;label&gt;周末住宿天数&lt;/label&gt;
-                                &lt;input type="number" id="stays_in_weekend_nights" value="2"&gt;
-                            &lt;/div&gt;
-                            &lt;div class="form-group"&gt;
-                                &lt;label&gt;工作日住宿天数&lt;/label&gt;
-                                &lt;input type="number" id="stays_in_week_nights" value="3"&gt;
-                            &lt;/div&gt;
-                            &lt;div class="form-group"&gt;
-                                &lt;label&gt;特殊要求数量&lt;/label&gt;
-                                &lt;input type="number" id="total_of_special_requests" value="0"&gt;
-                            &lt;/div&gt;
-                            &lt;div class="form-group"&gt;
-                                &lt;label&gt;预订变更次数&lt;/label&gt;
-                                &lt;input type="number" id="booking_changes" value="0"&gt;
-                            &lt;/div&gt;
-                            &lt;div class="form-group"&gt;
-                                &lt;label&gt;是否为回头客&lt;/label&gt;
-                                &lt;select id="is_repeated_guest"&gt;
-                                    &lt;option value="0"&gt;否&lt;/option&gt;
-                                    &lt;option value="1"&gt;是&lt;/option&gt;
-                                &lt;/select&gt;
-                            &lt;/div&gt;
-                            &lt;div class="form-group"&gt;
-                                &lt;label&gt;选择模型&lt;/label&gt;
-                                &lt;select id="model-select"&gt;
-                                    &lt;option value="Random Forest"&gt;随机森林 (推荐)&lt;/option&gt;
-                                    &lt;option value="Logistic Regression"&gt;逻辑回归&lt;/option&gt;
-                                    &lt;option value="SVM"&gt;支持向量机&lt;/option&gt;
-                                    &lt;option value="Neural Network"&gt;神经网络&lt;/option&gt;
-                                &lt;/select&gt;
-                            &lt;/div&gt;
-                        &lt;/div&gt;
+                    <form id="prediction-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>酒店类型</label>
+                                <select id="hotel">
+                                    <option value="Resort Hotel">度假酒店</option>
+                                    <option value="City Hotel">城市酒店</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>提前预订天数</label>
+                                <input type="number" id="lead_time" value="60">
+                            </div>
+                            <div class="form-group">
+                                <label>成人数量</label>
+                                <input type="number" id="adults" value="2">
+                            </div>
+                            <div class="form-group">
+                                <label>儿童数量</label>
+                                <input type="number" id="children" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>入住年份</label>
+                                <input type="number" id="arrival_date_year" value="2017">
+                            </div>
+                            <div class="form-group">
+                                <label>入住月份</label>
+                                <input type="number" id="arrival_date_month" value="7" min="1" max="12">
+                            </div>
+                            <div class="form-group">
+                                <label>周末住宿天数</label>
+                                <input type="number" id="stays_in_weekend_nights" value="2">
+                            </div>
+                            <div class="form-group">
+                                <label>工作日住宿天数</label>
+                                <input type="number" id="stays_in_week_nights" value="3">
+                            </div>
+                            <div class="form-group">
+                                <label>特殊要求数量</label>
+                                <input type="number" id="total_of_special_requests" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>预订变更次数</label>
+                                <input type="number" id="booking_changes" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>是否为回头客</label>
+                                <select id="is_repeated_guest">
+                                    <option value="0">否</option>
+                                    <option value="1">是</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>选择模型</label>
+                                <select id="model-select">
+                                    <option value="XGBoost">XGBoost (推荐，GPU加速)</option>
+                                    <option value="LightGBM">LightGBM (GPU加速)</option>
+                                    <option value="Logistic Regression">逻辑回归</option>
+                                    <option value="Neural Network">神经网络</option>
+                                </select>
+                            </div>
+                        </div>
 
-                        &lt;button type="submit" class="btn btn-primary" style="width: 100%;"&gt;
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
                             🔮 预测取消概率
-                        &lt;/button&gt;
-                    &lt;/form&gt;
+                        </button>
+                    </form>
 
-                    &lt;div id="prediction-result" style="display: none;"&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
-            &lt;/section&gt;
+                    <div id="prediction-result" style="display: none;">
+                    </div>
+                </div>
+            </section>
 
-            &lt;!-- Models Section --&gt;
-            &lt;section id="models" class="content-section"&gt;
-                &lt;div class="header"&gt;
-                    &lt;h2&gt;🤖 模型评估&lt;/h2&gt;
-                &lt;/div&gt;
+            <!-- Models Section -->
+            <section id="models" class="content-section">
+                <div class="header">
+                    <h2>🤖 模型评估</h2>
+                </div>
 
-                &lt;div class="card"&gt;
-                    &lt;div class="card-header"&gt;
-                        &lt;h3 class="card-title"&gt;模型性能对比&lt;/h3&gt;
-                    &lt;/div&gt;
-                    &lt;div class="model-grid" id="model-performance"&gt;
-                        &lt;div style="grid-column: 1 / -1; text-align: center; padding: 40px;"&gt;
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">模型性能对比</h3>
+                    </div>
+                    <div class="model-grid" id="model-performance">
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
                             请先运行 train_models.py 训练模型
-                        &lt;/div&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
-            &lt;/section&gt;
-        &lt;/main&gt;
-    &lt;/div&gt;
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
 
-    &lt;!-- Modal --&gt;
-    &lt;div class="modal-overlay" id="modal"&gt;
-        &lt;div class="modal"&gt;
-            &lt;div class="modal-header"&gt;
-                &lt;h3 class="modal-title" id="modal-title"&gt;新增预订&lt;/h3&gt;
-                &lt;button class="modal-close" onclick="closeModal()"&gt;&amp;times;&lt;/button&gt;
-            &lt;/div&gt;
-            &lt;form id="booking-form"&gt;
-                &lt;div class="form-grid"&gt;
-                    &lt;div class="form-group"&gt;
-                        &lt;label&gt;酒店&lt;/label&gt;
-                        &lt;select id="form-hotel"&gt;
-                            &lt;option value="Resort Hotel"&gt;度假酒店&lt;/option&gt;
-                            &lt;option value="City Hotel"&gt;城市酒店&lt;/option&gt;
-                        &lt;/select&gt;
-                    &lt;/div&gt;
-                    &lt;div class="form-group"&gt;
-                        &lt;label&gt;国家&lt;/label&gt;
-                        &lt;input type="text" id="form-country" placeholder="例如: PRT"&gt;
-                    &lt;/div&gt;
-                    &lt;div class="form-group"&gt;
-                        &lt;label&gt;市场细分&lt;/label&gt;
-                        &lt;input type="text" id="form-market" placeholder="例如: Online TA"&gt;
-                    &lt;/div&gt;
-                    &lt;div class="form-group"&gt;
-                        &lt;label&gt;提前预订天数&lt;/label&gt;
-                        &lt;input type="number" id="form-lead-time" value="0"&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
-                &lt;div style="display: flex; gap: 12px; margin-top: 24px;"&gt;
-                    &lt;button type="button" class="btn" style="flex: 1; background: var(--light);" onclick="closeModal()"&gt;取消&lt;/button&gt;
-                    &lt;button type="submit" class="btn btn-primary" style="flex: 1;"&gt;保存&lt;/button&gt;
-                &lt;/div&gt;
-            &lt;/form&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">新增预订</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="booking-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>酒店</label>
+                        <select id="form-hotel">
+                            <option value="Resort Hotel">度假酒店</option>
+                            <option value="City Hotel">城市酒店</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>国家</label>
+                        <input type="text" id="form-country" placeholder="例如: PRT">
+                    </div>
+                    <div class="form-group">
+                        <label>市场细分</label>
+                        <input type="text" id="form-market" placeholder="例如: Online TA">
+                    </div>
+                    <div class="form-group">
+                        <label>提前预订天数</label>
+                        <input type="number" id="form-lead-time" value="0">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button type="button" class="btn" style="flex: 1; background: var(--light);" onclick="closeModal()">取消</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    &lt;script&gt;
-        const API_BASE = 'http://localhost:5000/api';
+    <script>
+        const API_BASE = 'http://localhost:5001/api';
         let currentPage = 1;
         const pageSize = 10;
 
         // Navigation
-        document.querySelectorAll('.nav-item').forEach(item =&gt; {
+        document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function() {
                 const section = this.dataset.section;
                 navigateTo(section);
@@ -825,8 +825,8 @@
         });
 
         function navigateTo(section) {
-            document.querySelectorAll('.nav-item').forEach(item =&gt; item.classList.remove('active'));
-            document.querySelectorAll('.content-section').forEach(item =&gt; item.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(item => item.classList.remove('active'));
             
             document.querySelector(`[data-section="${section}"]`).classList.add('active');
             document.getElementById(section).classList.add('active');
@@ -857,24 +857,24 @@
 
         function renderRecentBookings(bookings) {
             const tbody = document.getElementById('recent-bookings');
-            tbody.innerHTML = bookings.map(booking =&gt; `
-                &lt;tr&gt;
-                    &lt;td&gt;${booking.id}&lt;/td&gt;
-                    &lt;td&gt;${booking.hotel}&lt;/td&gt;
-                    &lt;td&gt;${booking.arrival_date_year}-${booking.arrival_date_month}-${booking.arrival_date_day_of_month || 1}&lt;/td&gt;
-                    &lt;td&gt;
-                        &lt;span class="badge ${booking.is_canceled ? 'badge-danger' : 'badge-success'}"&gt;
+            tbody.innerHTML = bookings.map(booking => `
+                <tr>
+                    <td>${booking.id}</td>
+                    <td>${booking.hotel}</td>
+                    <td>${booking.arrival_date_year}-${booking.arrival_date_month}-${booking.arrival_date_day_of_month || 1}</td>
+                    <td>
+                        <span class="badge ${booking.is_canceled ? 'badge-danger' : 'badge-success'}">
                             ${booking.is_canceled ? '已取消' : '已确认'}
-                        &lt;/span&gt;
-                    &lt;/td&gt;
-                &lt;/tr&gt;
+                        </span>
+                    </td>
+                </tr>
             `).join('');
         }
 
         // Load Bookings
         async function loadBookings() {
             try {
-                const res = await fetch(`${API_BASE}/bookings?limit=${pageSize}&amp;offset=${(currentPage - 1) * pageSize}`);
+                const res = await fetch(`${API_BASE}/bookings?limit=${pageSize}&offset=${(currentPage - 1) * pageSize}`);
                 const data = await res.json();
                 renderBookings(data.bookings);
                 renderPagination(data.total);
@@ -885,25 +885,25 @@
 
         function renderBookings(bookings) {
             const tbody = document.getElementById('bookings-table');
-            tbody.innerHTML = bookings.map(booking =&gt; `
-                &lt;tr&gt;
-                    &lt;td&gt;${booking.id}&lt;/td&gt;
-                    &lt;td&gt;${booking.hotel}&lt;/td&gt;
-                    &lt;td&gt;${booking.country || '-'}&lt;/td&gt;
-                    &lt;td&gt;${booking.market_segment || '-'}&lt;/td&gt;
-                    &lt;td&gt;${booking.lead_time}&lt;/td&gt;
-                    &lt;td&gt;
-                        &lt;span class="badge ${booking.is_canceled ? 'badge-danger' : 'badge-success'}"&gt;
+            tbody.innerHTML = bookings.map(booking => `
+                <tr>
+                    <td>${booking.id}</td>
+                    <td>${booking.hotel}</td>
+                    <td>${booking.country || '-'}</td>
+                    <td>${booking.market_segment || '-'}</td>
+                    <td>${booking.lead_time}</td>
+                    <td>
+                        <span class="badge ${booking.is_canceled ? 'badge-danger' : 'badge-success'}">
                             ${booking.is_canceled ? '已取消' : '已确认'}
-                        &lt;/span&gt;
-                    &lt;/td&gt;
-                    &lt;td&gt;
-                        &lt;div class="table-actions"&gt;
-                            &lt;button class="btn btn-sm btn-primary" onclick="editBooking(${booking.id})"&gt;编辑&lt;/button&gt;
-                            &lt;button class="btn btn-sm btn-danger" onclick="deleteBooking(${booking.id})"&gt;删除&lt;/button&gt;
-                        &lt;/div&gt;
-                    &lt;/td&gt;
-                &lt;/tr&gt;
+                        </span>
+                    </td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn btn-sm btn-primary" onclick="editBooking(${booking.id})">编辑</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteBooking(${booking.id})">删除</button>
+                        </div>
+                    </td>
+                </tr>
             `).join('');
         }
 
@@ -912,8 +912,8 @@
             const pagination = document.getElementById('pagination');
             
             let html = '';
-            for (let i = 1; i &lt;= Math.min(totalPages, 10); i++) {
-                html += `&lt;button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})"&gt;${i}&lt;/button&gt;`;
+            for (let i = 1; i <= Math.min(totalPages, 10); i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
             }
             pagination.innerHTML = html;
         }
@@ -950,7 +950,7 @@
             document.getElementById('modal').classList.remove('active');
         }
 
-        document.getElementById('booking-form').addEventListener('submit', async (e) =&gt; {
+        document.getElementById('booking-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const bookingData = {
                 hotel: document.getElementById('form-hotel').value,
@@ -997,7 +997,7 @@
         }
 
         // Prediction
-        document.getElementById('prediction-form').addEventListener('submit', async (e) =&gt; {
+        document.getElementById('prediction-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const bookingData = {
@@ -1043,9 +1043,9 @@
             } catch (err) {
                 console.error('Error predicting:', err);
                 document.getElementById('prediction-result').innerHTML = `
-                    &lt;div class="prediction-result"&gt;
-                        &lt;p style="color: var(--danger);"&gt;❌ 预测失败，请确保后端服务正在运行并且已训练模型&lt;/p&gt;
-                    &lt;/div&gt;
+                    <div class="prediction-result">
+                        <p style="color: var(--danger);">❌ 预测失败，请确保后端服务正在运行并且已训练模型</p>
+                    </div>
                 `;
                 document.getElementById('prediction-result').style.display = 'block';
             }
@@ -1058,32 +1058,32 @@
             const confirmProb = result.probability ? (result.probability.not_canceled * 100).toFixed(1) : null;
             
             div.innerHTML = `
-                &lt;div class="prediction-result"&gt;
-                    &lt;div class="prediction-label ${isCanceled ? 'prediction-canceled' : 'prediction-confirmed'}"&gt;
+                <div class="prediction-result">
+                    <div class="prediction-label ${isCanceled ? 'prediction-canceled' : 'prediction-confirmed'}">
                         ${isCanceled ? '⚠️ 预测: 预订可能取消' : '✅ 预测: 预订大概率确认'}
-                    &lt;/div&gt;
-                    &lt;p style="margin: 12px 0; color: var(--gray);"&gt;模型: ${result.model}&lt;/p&gt;
+                    </div>
+                    <p style="margin: 12px 0; color: var(--gray);">模型: ${result.model}</p>
                     ${result.probability ? `
-                        &lt;div class="probability-bar"&gt;
-                            &lt;div class="probability-label"&gt;
-                                &lt;span&gt;取消概率&lt;/span&gt;
-                                &lt;span style="color: var(--danger);"&gt;${cancelProb}%&lt;/span&gt;
-                            &lt;/div&gt;
-                            &lt;div class="probability-track"&gt;
-                                &lt;div class="probability-fill" style="width: ${cancelProb}%; background: var(--danger);"&gt;&lt;/div&gt;
-                            &lt;/div&gt;
-                        &lt;/div&gt;
-                        &lt;div class="probability-bar" style="margin-top: 16px;"&gt;
-                            &lt;div class="probability-label"&gt;
-                                &lt;span&gt;确认概率&lt;/span&gt;
-                                &lt;span style="color: var(--success);"&gt;${confirmProb}%&lt;/span&gt;
-                            &lt;/div&gt;
-                            &lt;div class="probability-track"&gt;
-                                &lt;div class="probability-fill" style="width: ${confirmProb}%; background: var(--success);"&gt;&lt;/div&gt;
-                            &lt;/div&gt;
-                        &lt;/div&gt;
+                        <div class="probability-bar">
+                            <div class="probability-label">
+                                <span>取消概率</span>
+                                <span style="color: var(--danger);">${cancelProb}%</span>
+                            </div>
+                            <div class="probability-track">
+                                <div class="probability-fill" style="width: ${cancelProb}%; background: var(--danger);"></div>
+                            </div>
+                        </div>
+                        <div class="probability-bar" style="margin-top: 16px;">
+                            <div class="probability-label">
+                                <span>确认概率</span>
+                                <span style="color: var(--success);">${confirmProb}%</span>
+                            </div>
+                            <div class="probability-track">
+                                <div class="probability-fill" style="width: ${confirmProb}%; background: var(--success);"></div>
+                            </div>
+                        </div>
                     ` : ''}
-                &lt;/div&gt;
+                </div>
             `;
             div.style.display = 'block';
         }
@@ -1094,30 +1094,30 @@
                 const res = await fetch(`${API_BASE}/models/performance`);
                 const performance = await res.json();
                 
-                if (performance &amp;&amp; typeof performance === 'object' &amp;&amp; Object.keys(performance).length &gt; 0) {
+                if (performance && typeof performance === 'object' && Object.keys(performance).length > 0) {
                     const grid = document.getElementById('model-performance');
-                    grid.innerHTML = Object.entries(performance).map(([name, metrics]) =&gt; `
-                        &lt;div class="model-card"&gt;
-                            &lt;div class="model-name"&gt;${name}&lt;/div&gt;
-                            &lt;div class="model-metrics"&gt;
-                                &lt;div class="metric-item"&gt;
-                                    &lt;div class="metric-item-label"&gt;准确率&lt;/div&gt;
-                                    &lt;div class="metric-item-value"&gt;${(metrics.accuracy * 100).toFixed(2)}%&lt;/div&gt;
-                                &lt;/div&gt;
-                                &lt;div class="metric-item"&gt;
-                                    &lt;div class="metric-item-label"&gt;精确率&lt;/div&gt;
-                                    &lt;div class="metric-item-value"&gt;${(metrics.precision * 100).toFixed(2)}%&lt;/div&gt;
-                                &lt;/div&gt;
-                                &lt;div class="metric-item"&gt;
-                                    &lt;div class="metric-item-label"&gt;召回率&lt;/div&gt;
-                                    &lt;div class="metric-item-value"&gt;${(metrics.recall * 100).toFixed(2)}%&lt;/div&gt;
-                                &lt;/div&gt;
-                                &lt;div class="metric-item"&gt;
-                                    &lt;div class="metric-item-label"&gt;F1分数&lt;/div&gt;
-                                    &lt;div class="metric-item-value"&gt;${(metrics.f1 * 100).toFixed(2)}%&lt;/div&gt;
-                                &lt;/div&gt;
-                            &lt;/div&gt;
-                        &lt;/div&gt;
+                    grid.innerHTML = Object.entries(performance).map(([name, metrics]) => `
+                        <div class="model-card">
+                            <div class="model-name">${name}</div>
+                            <div class="model-metrics">
+                                <div class="metric-item">
+                                    <div class="metric-item-label">准确率</div>
+                                    <div class="metric-item-value">${(metrics.accuracy * 100).toFixed(2)}%</div>
+                                </div>
+                                <div class="metric-item">
+                                    <div class="metric-item-label">精确率</div>
+                                    <div class="metric-item-value">${(metrics.precision * 100).toFixed(2)}%</div>
+                                </div>
+                                <div class="metric-item">
+                                    <div class="metric-item-label">召回率</div>
+                                    <div class="metric-item-value">${(metrics.recall * 100).toFixed(2)}%</div>
+                                </div>
+                                <div class="metric-item">
+                                    <div class="metric-item-label">F1分数</div>
+                                    <div class="metric-item-value">${(metrics.f1 * 100).toFixed(2)}%</div>
+                                </div>
+                            </div>
+                        </div>
                     `).join('');
                 }
             } catch (err) {
@@ -1127,7 +1127,7 @@
 
         // Initialize
         loadDashboard();
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+    </script>
+</body>
+</html>
 
