@@ -1,8 +1,10 @@
 
+import os
+os.environ['PYTHONIOENCODING'] = 'utf-8'
+
 import pandas as pd
 import numpy as np
 import joblib
-import os
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.linear_model import LogisticRegression
@@ -12,6 +14,10 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 import xgboost as xgb
 import lightgbm as lgb
+from feature_engineering import FeatureEngineer
+from temporal_features import TemporalFeatureEngineer
+from feature_interaction import FeatureInteractionDiscovery
+from external_data import ExternalDataIntegrator
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -44,6 +50,12 @@ def load_data(filepath):
 def preprocess_data(df):
     df_processed = df.copy()
     
+    # ===== 新增: 外部数据整合 =====
+    integrator = ExternalDataIntegrator()
+    df_processed = integrator.enrich_dataframe(df_processed)
+    print(f"外部数据整合完成，新增 {len(integrator.get_external_feature_names())} 个外部特征")
+    # ============================
+    
     # 去除标签泄漏特征（预测时无法获取的特征
     leak_features = ['reservation_status', 'reservation_status_date']
     df_processed = df_processed.drop(columns=leak_features, errors='ignore')
@@ -62,7 +74,43 @@ def preprocess_data(df):
         le = LabelEncoder()
         df_processed[col] = le.fit_transform(df_processed[col].astype(str))
         label_encoders[col] = le
-    
+
+    # ===== 复合特征构造 =====
+    engineer = FeatureEngineer()
+    df_processed = engineer.transform(df_processed)
+    print(f"复合特征构造完成，新增 {len(engineer.get_new_feature_names())} 个特征")
+    # ========================
+
+    # ===== 新增: 时序聚合特征 =====
+    temp_engineer = TemporalFeatureEngineer(window_days=90)
+    temp_engineer.fit(df_processed)  # 先 fit 计算全局统计量
+    df_processed = temp_engineer.transform(df_processed)
+    print(f"时序聚合特征构造完成，新增 {len(temp_engineer.get_feature_descriptions())} 个特征")
+    # ============================
+
+    # ===== 新增: 特征交互发现 =====
+    interaction_discovery = FeatureInteractionDiscovery(max_interactions=20)
+    X_before_interaction = df_processed.drop('is_canceled', axis=1, errors='ignore')
+    y_for_interaction = df_processed['is_canceled']
+
+    # 只对部分列进行交互发现（限制数量，防止维度爆炸）
+    numeric_cols_for_interaction = X_before_interaction.select_dtypes(include=[np.number]).columns[:15].tolist()
+    cat_cols_for_interaction = []  # 已编码的类别列不再重复交互
+
+    X_with_interactions = interaction_discovery.discover_interactions(
+        X_before_interaction, y_for_interaction,
+        numeric_cols=numeric_cols_for_interaction,
+        categorical_cols=cat_cols_for_interaction
+    )
+
+    # 将交互特征合并回主 DataFrame
+    new_inter_cols = [c for c in X_with_interactions.columns if c not in X_before_interaction.columns]
+    for col in new_inter_cols:
+        df_processed[col] = X_with_interactions[col].values
+
+    print(f"特征交互发现完成，新增 {len(new_inter_cols)} 个交互特征")
+    # ============================
+
     # 分离特征和标签
     X = df_processed.drop('is_canceled', axis=1)
     y = df_processed['is_canceled']
@@ -139,7 +187,27 @@ def train_models(X_train, y_train):
     mlp = MLPClassifier(hidden_layer_sizes=(100, 50), max_iter=500, random_state=42)
     mlp.fit(X_train, y_train)
     models['Neural Network'] = mlp
-    
+
+    # 5. CatBoost（对类别特征原生支持更好）
+    print("训练 CatBoost 模型...")
+    try:
+        from catboost import CatBoostClassifier
+        cat_clf = CatBoostClassifier(
+            iterations=200,
+            depth=10,
+            learning_rate=0.1,
+            random_state=42,
+            verbose=0,
+            # CatBoost 可自动处理类别特征，但这里我们已做编码，所以用默认设置
+        )
+        cat_clf.fit(X_train, y_train)
+        models['CatBoost'] = cat_clf
+        print("CatBoost 模型训练完成")
+    except ImportError:
+        print("警告: catboost 未安装，跳过 CatBoost 模型")
+    except Exception as e:
+        print(f"CatBoost 训练出错: {e}")
+
     return models
 
 def evaluate_models(models, X_test, y_test):
@@ -209,16 +277,51 @@ def main():
         print(f"  F1分数: {metrics['f1']:.4f}")
         print(f"  ROC-AUC: {metrics['roc_auc']:.4f}")
     
+    # ===== 新增: 自动记录实验到 MLflow Tracker =====
+    print("\n记录训练实验...")
+    for name, model in models.items():
+        try:
+            from mlflow_tracker import auto_log_training
+
+            # 提取可序列化的超参数
+            try:
+                params = model.get_params()
+                # 只保留关键参数，过滤掉不可序列化的
+                params = {k: v for k, v in params.items()
+                          if isinstance(v, (int, float, str, bool, type(None)))}
+            except:
+                params = {'model_type': type(model).__name__}
+
+            auto_log_training(
+                model_name=name,
+                params=params,
+                metrics=results[name],
+                model_object=model,
+                feature_names=feature_names
+            )
+        except Exception as e:
+            print(f"  记录 {name} 实验失败: {e}")
+    # ============================================
+
     # 确保目录存在
     if not os.path.exists('models'):
         os.makedirs('models')
-    
+
     # 保存结果
     joblib.dump(results, 'models/model_results.pkl')
-    
+
     # 保存模型
     save_models(models, label_encoders, scaler, feature_names)
-    
+
+    # ===== 新增: 设置漂移检测基线 =====
+    try:
+        from drift_detector import get_drift_monitor
+        monitor = get_drift_monitor()
+        monitor.set_baseline(df, snapshot_name=f'training_{datetime.now().strftime("%Y%m%d_%H%M")}')
+    except Exception as e:
+        print(f"  设置漂移基线失败: {e}")
+    # ====================================
+
     print("\n训练完成！")
 
 if __name__ == "__main__":

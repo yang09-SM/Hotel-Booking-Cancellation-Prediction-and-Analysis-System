@@ -1,11 +1,21 @@
 
 Flask>=2.3.0
 Flask-CORS>=4.0.0
+PyJWT>=2.8.0
+werkzeug>=3.0.0
 pandas>=2.1.0
 numpy>=1.26.0,<2.0.0
+scipy>=1.10.0  # 统计检验库（卡方检验、F检验、互信息）
 scikit-learn>=1.3.0
 joblib>=1.3.0
 setuptools>=65.0.0
 xgboost>=2.0.0
 lightgbm>=4.0.0
+shap>=0.44.0  # SHAP可解释性分析库
+matplotlib>=3.8.0  # 用于生成SHAP图表
+catboost>=1.2
+optuna>=3.5.0  # 超参数自动优化框架
+requests>=2.28.0  # HTTP请求库（用于外部数据API调用）
+psycopg2-binary>=2.9.0  # PostgreSQL 数据库适配器（生产环境使用）
+redis>=4.5.0  # Redis缓存客户端
 

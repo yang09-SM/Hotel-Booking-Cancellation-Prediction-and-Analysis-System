@@ -518,6 +518,155 @@
             border-color: var(--primary);
         }
 
+        /* Login Page */
+        .login-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .login-page.hidden {
+            display: none;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 48px 40px;
+            width: 420px;
+            max-width: 90vw;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .login-header p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .login-form .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 15px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
+        }
+
+        .login-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .login-error.show {
+            display: block;
+        }
+
+        /* User info in sidebar */
+        .sidebar-user {
+            padding: 16px 24px;
+            border-top: 1px solid var(--light);
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .user-avatar.role-admin { background: var(--danger); }
+        .user-avatar.role-manager { background: var(--success); }
+        .user-avatar.role-staff { background: var(--primary); }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .logout-btn {
+            padding: 6px 14px;
+            border: 1px solid var(--danger);
+            background: transparent;
+            color: var(--danger);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
@@ -538,7 +687,32 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Login Page -->
+    <div class="login-page" id="login-page">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>🏨 酒店预订智能管理系统</h1>
+                <p>请登录以继续使用系统</p>
+            </div>
+            <div class="login-error" id="login-error"></div>
+            <form class="login-form" id="login-form">
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input type="text" id="login-username" placeholder="请输入用户名" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" id="login-password" placeholder="请输入密码" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="login-btn">登 录</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px; font-size: 13px; color: var(--gray);">
+                默认账号：admin / manager / staff（密码均为 用户名+123）
+            </p>
+        </div>
+    </div>
+
+    <div class="container" id="app-container" style="display: none;">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -546,23 +720,39 @@
                 <p>智能预订管理系统</p>
             </div>
             <nav class="nav-menu">
-                <div class="nav-item active" data-section="dashboard">
+                <div class="nav-item active" data-section="dashboard" data-role="all">
                     <span class="nav-icon">📊</span>
                     <span>数据概览</span>
                 </div>
-                <div class="nav-item" data-section="bookings">
+                <div class="nav-item" data-section="bookings" data-role="staff+">
                     <span class="nav-icon">📋</span>
                     <span>预订管理</span>
                 </div>
-                <div class="nav-item" data-section="prediction">
+                <div class="nav-item" data-section="prediction" data-role="manager+">
                     <span class="nav-icon">🔮</span>
                     <span>取消预测</span>
                 </div>
-                <div class="nav-item" data-section="models">
+                <div class="nav-item" data-section="models" data-role="manager+">
                     <span class="nav-icon">🤖</span>
                     <span>模型评估</span>
                 </div>
+                <div class="nav-item" data-section="users" data-role="admin">
+                    <span class="nav-icon">👥</span>
+                    <span>用户管理</span>
+                </div>
             </nav>
+
+            <!-- User Info -->
+            <div class="sidebar-user" id="sidebar-user">
+                <div class="user-info">
+                    <div class="user-avatar" id="user-avatar">A</div>
+                    <div>
+                        <div class="user-name" id="user-name-display">-</div>
+                        <div class="user-role" id="user-role-display">-</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">退出登录</button>
+            </div>
         </aside>
 
         <!-- Main Content -->
@@ -771,6 +961,37 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Users Section (仅管理员) -->
+            <section id="users" class="content-section">
+                <div class="header">
+                    <h2>👥 用户管理</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">用户列表</h3>
+                        <button class="btn btn-primary" onclick="openUserCreateModal()">➕ 新增用户</button>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>用户名</th>
+                                    <th>角色</th>
+                                    <th>状态</th>
+                                    <th>创建时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -811,12 +1032,201 @@
         </div>
     </div>
 
+    <!-- User Modal -->
+    <div class="modal-overlay" id="user-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="user-modal-title">新增用户</h3>
+                <button class="modal-close" onclick="closeUserModal()">&times;</button>
+            </div>
+            <form id="user-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>用户名 <span style="color:var(--danger)">*</span></label>
+                        <input type="text" id="form-user-username" placeholder="请输入用户名" required>
+                    </div>
+                    <div class="form-group">
+                        <label>密码 <span style="color:var(--danger)">*</span></label>
+                        <input type="password" id="form-user-password" placeholder="请输入密码" required>
+                    </div>
+                    <div class="form-group">
+                        <label>角色</label>
+                        <select id="form-user-role">
+                            <option value="staff">店员</option>
+                            <option value="manager">经理</option>
+                            <option value="admin">管理员</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button type="button" class="btn" style="flex: 1; background: var(--light);" onclick="closeUserModal()">取消</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         const API_BASE = 'http://localhost:5001/api';
         let currentPage = 1;
         const pageSize = 10;
 
-        // Navigation
+        // ==================== 认证管理 ====================
+        let currentUser = null;
+
+        function getToken() {
+            return localStorage.getItem('auth_token');
+        }
+
+        function setToken(token) {
+            localStorage.setItem('auth_token', token);
+        }
+
+        function clearAuth() {
+            localStorage.removeItem('auth_token');
+            currentUser = null;
+        }
+
+        // 带认证的 fetch 封装
+        async function authFetch(url, options = {}) {
+            const token = getToken();
+            if (token) {
+                options.headers = options.headers || {};
+                options.headers['Authorization'] = `Bearer ${token}`;
+            }
+            const res = await fetch(url, options);
+            // token 过期或无效，跳转登录
+            if (res.status === 401) {
+                clearAuth();
+                showLoginPage();
+                throw new Error('登录已过期，请重新登录');
+            }
+            return res;
+        }
+
+        // 显示登录页
+        function showLoginPage() {
+            document.getElementById('login-page').classList.remove('hidden');
+            document.getElementById('app-container').style.display = 'none';
+        }
+
+        // 显示主应用
+        function showApp() {
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('app-container').style.display = 'flex';
+        }
+
+        // 登录
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+            const errorEl = document.getElementById('login-error');
+
+            try {
+                const res = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+
+                if (res.ok && data.token) {
+                    setToken(data.token);
+                    currentUser = data.user;
+                    updateUserUI();
+                    showApp();
+                    loadDashboard();
+                    errorEl.classList.remove('show');
+                } else {
+                    errorEl.textContent = data.error || '用户名或密码错误';
+                    errorEl.classList.add('show');
+                }
+            } catch (err) {
+                errorEl.textContent = '登录失败，请检查网络连接';
+                errorEl.classList.add('show');
+            }
+        });
+
+        // 登出
+        function logout() {
+            clearAuth();
+            showLoginPage();
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+        }
+
+        // 更新用户信息显示 & 权限控制
+        function updateUserUI() {
+            if (!currentUser) return;
+            document.getElementById('user-name-display').textContent = currentUser.username;
+            const avatar = document.getElementById('user-avatar');
+            avatar.textContent = currentUser.username.charAt(0).toUpperCase();
+            // 设置角色颜色
+            avatar.className = 'user-avatar role-' + (currentUser.role || 'staff');
+            const roleMap = { admin: '管理员', manager: '经理', staff: '店员' };
+            document.getElementById('user-role-display').textContent = roleMap[currentUser.role] || currentUser.role;
+
+            // 根据角色控制导航菜单可见性
+            applyRolePermissions();
+        }
+
+        // 角色权限等级
+        const ROLE_HIERARCHY = { staff: 1, manager: 2, admin: 3 };
+
+        function applyRolePermissions() {
+            const userLevel = ROLE_HIERARCHY[currentUser?.role] || 0;
+
+            document.querySelectorAll('.nav-item[data-role]').forEach(item => {
+                const required = item.dataset.role;
+                let show = false;
+
+                if (required === 'all') {
+                    show = true;
+                } else if (required.endsWith('+')) {
+                    // manager+ 表示 manager 及以上，staff+ 表示 staff 及以上
+                    const baseRole = required.replace('+', '');
+                    show = userLevel >= (ROLE_HIERARCHY[baseRole] || 0);
+                } else {
+                    // 精确匹配，如 admin
+                    show = currentUser?.role === required;
+                }
+
+                item.style.display = show ? 'flex' : 'none';
+            });
+
+            // 预订管理页面的操作按钮权限
+            const isAdmin = currentUser?.role === 'admin';
+            const createBtn = document.querySelector('button[onclick="openCreateModal()"]');
+            if (createBtn) createBtn.style.display = isAdmin ? 'inline-flex' : 'none';
+        }
+
+        // 检查登录状态
+        async function checkAuth() {
+            const token = getToken();
+            if (!token) {
+                showLoginPage();
+                return;
+            }
+            try {
+                const res = await authFetch(`${API_BASE}/auth/me`);
+                if (res.ok) {
+                    currentUser = await res.json();
+                    updateUserUI();
+                    showApp();
+                    loadDashboard();
+                } else {
+                    clearAuth();
+                    showLoginPage();
+                }
+            } catch (err) {
+                // 网络错误时如果已有 token，仍然显示应用（允许离线使用）
+                showApp();
+                loadDashboard();
+            }
+        }
+
+        // ==================== 导航 ====================
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function() {
                 const section = this.dataset.section;
@@ -827,27 +1237,28 @@
         function navigateTo(section) {
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             document.querySelectorAll('.content-section').forEach(item => item.classList.remove('active'));
-            
-            document.querySelector(`[data-section="${section}"]`).classList.add('active');
-            document.getElementById(section).classList.add('active');
+
+            document.querySelector(`[data-section="${section}"]`)?.classList.add('active');
+            document.getElementById(section)?.classList.add('active');
 
             if (section === 'dashboard') loadDashboard();
             if (section === 'bookings') loadBookings();
             if (section === 'models') loadModelPerformance();
+            if (section === 'users') loadUsers();
         }
 
         // Load Dashboard
         async function loadDashboard() {
             try {
-                const statsRes = await fetch(`${API_BASE}/statistics`);
+                const statsRes = await authFetch(`${API_BASE}/statistics`);
                 const stats = await statsRes.json();
-                
+
                 document.getElementById('total-bookings').textContent = stats.total_bookings || 0;
                 document.getElementById('confirmed-bookings').textContent = stats.confirmed_bookings || 0;
                 document.getElementById('canceled-bookings').textContent = stats.canceled_bookings || 0;
                 document.getElementById('avg-lead-time').textContent = Math.round(stats.avg_lead_time || 0);
 
-                const bookingsRes = await fetch(`${API_BASE}/bookings?limit=5`);
+                const bookingsRes = await authFetch(`${API_BASE}/bookings?limit=5`);
                 const data = await bookingsRes.json();
                 renderRecentBookings(data.bookings);
             } catch (err) {
@@ -874,7 +1285,7 @@
         // Load Bookings
         async function loadBookings() {
             try {
-                const res = await fetch(`${API_BASE}/bookings?limit=${pageSize}&offset=${(currentPage - 1) * pageSize}`);
+                const res = await authFetch(`${API_BASE}/bookings?limit=${pageSize}&offset=${(currentPage - 1) * pageSize}`);
                 const data = await res.json();
                 renderBookings(data.bookings);
                 renderPagination(data.total);
@@ -885,6 +1296,14 @@
 
         function renderBookings(bookings) {
             const tbody = document.getElementById('bookings-table');
+            const isAdmin = currentUser?.role === 'admin';
+            const actionHtml = isAdmin
+                ? `<div class="table-actions">
+                        <button class="btn btn-sm btn-primary" onclick="editBooking(${booking.id})">编辑</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteBooking(${booking.id})">删除</button>
+                   </div>`
+                : '<span style="color:var(--gray);font-size:12px;">仅查看</span>';
+
             tbody.innerHTML = bookings.map(booking => `
                 <tr>
                     <td>${booking.id}</td>
@@ -897,12 +1316,7 @@
                             ${booking.is_canceled ? '已取消' : '已确认'}
                         </span>
                     </td>
-                    <td>
-                        <div class="table-actions">
-                            <button class="btn btn-sm btn-primary" onclick="editBooking(${booking.id})">编辑</button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteBooking(${booking.id})">删除</button>
-                        </div>
-                    </td>
+                    <td>${actionHtml.replace('${booking.id}', booking.id)}</td>
                 </tr>
             `).join('');
         }
@@ -931,7 +1345,7 @@
                 return;
             }
             try {
-                const res = await fetch(`${API_BASE}/bookings?keyword=${keyword}`);
+                const res = await authFetch(`${API_BASE}/bookings?keyword=${keyword}`);
                 const data = await res.json();
                 renderBookings(data.bookings);
             } catch (err) {
@@ -940,7 +1354,10 @@
         }
 
         // Modal
+        let editingId = null;  // 编辑模式时记录当前编辑的ID
+
         function openCreateModal() {
+            editingId = null;
             document.getElementById('modal-title').textContent = '新增预订';
             document.getElementById('booking-form').reset();
             document.getElementById('modal').classList.add('active');
@@ -948,6 +1365,26 @@
 
         function closeModal() {
             document.getElementById('modal').classList.remove('active');
+            editingId = null;
+        }
+
+        async function editBooking(id) {
+            try {
+                const res = await authFetch(`${API_BASE}/bookings/${id}`);
+                if (!res.ok) return;
+                const booking = await res.json();
+
+                editingId = id;
+                document.getElementById('modal-title').textContent = '编辑预订';
+                document.getElementById('form-hotel').value = booking.hotel || '';
+                document.getElementById('form-country').value = booking.country || '';
+                document.getElementById('form-market').value = booking.market_segment || '';
+                document.getElementById('form-lead-time').value = booking.lead_time || 0;
+                document.getElementById('modal').classList.add('active');
+            } catch (err) {
+                console.error('Error loading booking:', err);
+                alert('获取预订数据失败');
+            }
         }
 
         document.getElementById('booking-form').addEventListener('submit', async (e) => {
@@ -966,34 +1403,41 @@
                 stays_in_weekend_nights: 0,
                 stays_in_week_nights: 1
             };
-            
+
             try {
-                const res = await fetch(`${API_BASE}/bookings`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(bookingData)
-                });
+                let res;
+                if (editingId) {
+                    // 编辑模式：PUT 更新
+                    res = await authFetch(`${API_BASE}/bookings/${editingId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(bookingData)
+                    });
+                } else {
+                    // 新增模式：POST 创建
+                    res = await authFetch(`${API_BASE}/bookings`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(bookingData)
+                    });
+                }
                 if (res.ok) {
                     closeModal();
                     loadBookings();
                 }
             } catch (err) {
-                console.error('Error creating booking:', err);
+                console.error('Error saving booking:', err);
             }
         });
 
         async function deleteBooking(id) {
             if (!confirm('确定要删除这个预订吗？')) return;
             try {
-                await fetch(`${API_BASE}/bookings/${id}`, { method: 'DELETE' });
+                await authFetch(`${API_BASE}/bookings/${id}`, { method: 'DELETE' });
                 loadBookings();
             } catch (err) {
                 console.error('Error deleting:', err);
             }
-        }
-
-        function editBooking(id) {
-            alert('编辑功能需要实现获取单个预订的逻辑');
         }
 
         // Prediction
@@ -1033,7 +1477,7 @@
             const model = document.getElementById('model-select').value;
             
             try {
-                const res = await fetch(`${API_BASE}/predict`, {
+                const res = await authFetch(`${API_BASE}/predict`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ booking: bookingData, model: model })
@@ -1090,43 +1534,198 @@
 
         // Load Model Performance
         async function loadModelPerformance() {
+            const grid = document.getElementById('model-performance');
+            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px;">⏳ 正在加载模型评估数据...</div>';
             try {
-                const res = await fetch(`${API_BASE}/models/performance`);
+                const res = await authFetch(`${API_BASE}/models/performance`);
+                console.log('[ModelPerformance] API response status:', res.status);
                 const performance = await res.json();
-                
-                if (performance && typeof performance === 'object' && Object.keys(performance).length > 0) {
-                    const grid = document.getElementById('model-performance');
-                    grid.innerHTML = Object.entries(performance).map(([name, metrics]) => `
-                        <div class="model-card">
-                            <div class="model-name">${name}</div>
-                            <div class="model-metrics">
-                                <div class="metric-item">
-                                    <div class="metric-item-label">准确率</div>
-                                    <div class="metric-item-value">${(metrics.accuracy * 100).toFixed(2)}%</div>
-                                </div>
-                                <div class="metric-item">
-                                    <div class="metric-item-label">精确率</div>
-                                    <div class="metric-item-value">${(metrics.precision * 100).toFixed(2)}%</div>
-                                </div>
-                                <div class="metric-item">
-                                    <div class="metric-item-label">召回率</div>
-                                    <div class="metric-item-value">${(metrics.recall * 100).toFixed(2)}%</div>
-                                </div>
-                                <div class="metric-item">
-                                    <div class="metric-item-label">F1分数</div>
-                                    <div class="metric-item-value">${(metrics.f1 * 100).toFixed(2)}%</div>
-                                </div>
+                console.log('[ModelPerformance] API response data:', performance);
+
+                // 检查返回的是否是有效的模型性能数据（包含 accuracy 等数值指标）
+                if (!performance || typeof performance !== 'object') {
+                    grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px;">无法加载模型性能数据</div>';
+                    return;
+                }
+
+                // 过滤掉错误/提示信息，只保留包含数值指标的模型数据
+                const validModels = Object.entries(performance).filter(
+                    ([name, metrics]) => metrics && typeof metrics.accuracy === 'number'
+                );
+                console.log('[ModelPerformance] Valid models count:', validModels.length);
+
+                if (validModels.length === 0) {
+                    grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px;">请先运行 train_models.py 训练模型</div>';
+                    return;
+                }
+
+                grid.innerHTML = validModels.map(([name, metrics]) => `
+                    <div class="model-card">
+                        <div class="model-name">${name}</div>
+                        <div class="model-metrics">
+                            <div class="metric-item">
+                                <div class="metric-item-label">准确率</div>
+                                <div class="metric-item-value">${(metrics.accuracy * 100).toFixed(2)}%</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-item-label">精确率</div>
+                                <div class="metric-item-value">${(metrics.precision * 100).toFixed(2)}%</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-item-label">召回率</div>
+                                <div class="metric-item-value">${(metrics.recall * 100).toFixed(2)}%</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-item-label">F1分数</div>
+                                <div class="metric-item-value">${(metrics.f1 * 100).toFixed(2)}%</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-item-label">ROC-AUC</div>
+                                <div class="metric-item-value">${(metrics.roc_auc * 100).toFixed(2)}%</div>
                             </div>
                         </div>
-                    `).join('');
-                }
+                    </div>
+                `).join('');
             } catch (err) {
-                console.error('Error loading model performance:', err);
+                console.error('[ModelPerformance] Error loading model performance:', err);
+                grid.innerHTML =
+                    '<div style="grid-column: 1 / -1; text-align: center; padding: 40px;">加载失败: ' + err.message + '</div>';
             }
         }
 
-        // Initialize
-        loadDashboard();
+        // ==================== 用户管理（仅管理员） ====================
+        let editingUserId = null;
+
+        async function loadUsers() {
+            try {
+                const res = await authFetch(`${API_BASE}/users`);
+                const data = await res.json();
+                renderUsers(data.users);
+            } catch (err) {
+                console.error('Error loading users:', err);
+            }
+        }
+
+        function renderUsers(users) {
+            const tbody = document.getElementById('users-table');
+            const roleMap = { admin: '管理员', manager: '经理', staff: '店员' };
+            const roleBadgeMap = {
+                admin: 'badge-danger',
+                manager: 'badge-success',
+                staff: ''
+            };
+
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.id}</td>
+                    <td><strong>${user.username}</strong></td>
+                    <td><span class="badge ${roleBadgeMap[user.role] || ''}">${roleMap[user.role] || user.role}</span></td>
+                    <td><span class="badge ${user.is_active ? 'badge-success' : ''}">${user.is_active ? '激活' : '禁用'}</span></td>
+                    <td style="color:var(--gray);font-size:13px;">${user.created_at || '-'}</td>
+                    <td>
+                        <div class="table-actions">
+                            ${user.id !== currentUser?.id ? `
+                                <button class="btn btn-sm btn-primary" onclick="editUser(${user.id})">编辑</button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteUser(${user.id}, '${user.username}')">删除</button>
+                            ` : '<span style="color:var(--gray);font-size:12px;">当前账号</span>'}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openUserCreateModal() {
+            editingUserId = null;
+            document.getElementById('user-modal-title').textContent = '新增用户';
+            document.getElementById('user-form').reset();
+            document.getElementById('form-user-password').required = true;
+            document.getElementById('user-modal').classList.add('active');
+        }
+
+        function closeUserModal() {
+            document.getElementById('user-modal').classList.remove('active');
+            editingUserId = null;
+        }
+
+        async function editUser(id) {
+            try {
+                const res = await authFetch(`${API_BASE}/users/${id}`);
+                if (!res.ok) return;
+                const user = await res.json();
+
+                editingUserId = id;
+                document.getElementById('user-modal-title').textContent = '编辑用户';
+                document.getElementById('form-user-username').value = user.username;
+                document.getElementById('form-user-role').value = user.role;
+                document.getElementById('form-user-password').value = '';
+                document.getElementById('form-user-password').required = false;
+                document.getElementById('form-user-password').placeholder = '留空则不修改密码';
+                document.getElementById('user-modal').classList.add('active');
+            } catch (err) {
+                console.error('Error loading user:', err);
+                alert('获取用户数据失败');
+            }
+        }
+
+        async function deleteUser(id, username) {
+            if (!confirm(`确定要删除用户 "${username}" 吗？此操作不可恢复。`)) return;
+            try {
+                const res = await authFetch(`${API_BASE}/users/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    loadUsers();
+                } else {
+                    const data = await res.json();
+                    alert(data.error || '删除失败');
+                }
+            } catch (err) {
+                console.error('Error deleting user:', err);
+                alert('删除失败');
+            }
+        }
+
+        document.getElementById('user-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('form-user-username').value.trim();
+            const password = document.getElementById('form-user-password').value;
+            const role = document.getElementById('form-user-role').value;
+
+            if (!username) { alert('请输入用户名'); return; }
+            if (!editingUserId && !password) { alert('请输入密码'); return; }
+
+            const userData = { username, role };
+            if (password) userData.password = password;
+
+            try {
+                let res;
+                if (editingUserId) {
+                    res = await authFetch(`${API_BASE}/users/${editingUserId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(userData)
+                    });
+                } else {
+                    res = await authFetch(`${API_BASE}/users`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(userData)
+                    });
+                }
+
+                if (res.ok) {
+                    closeUserModal();
+                    loadUsers();
+                } else {
+                    const data = await res.json();
+                    alert(data.error || '操作失败');
+                }
+            } catch (err) {
+                console.error('Error saving user:', err);
+                alert('保存失败，请检查网络连接');
+            }
+        });
+
+        // Initialize - 检查登录状态
+        checkAuth();
     </script>
 </body>
 </html>
